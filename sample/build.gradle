@@ -2,14 +2,21 @@ apply plugin: 'com.android.application'
 apply plugin: 'androidx.navigation.safeargs'
 
 android {
-    compileSdkVersion 33
-
+    compileSdk 33
+    /*
+     * The namespace is initially set to the package name you choose when you create your project.
+     * While building your app into the final application package (APK), the Android build tools
+     * use the namespace as the namespace for your app's generated R class, which is used to access
+     * your app resources.
+     * See more at https://developer.android.com/build/configure-app-module#set-namespace
+     */
+    namespace 'com.pingidentity.pingone'
     defaultConfig {
         applicationId "com.pingidentity.pingone"
         minSdkVersion 26
         targetSdkVersion 33
-        versionCode = 19
-        versionName "1.9.0"
+        versionCode = 21
+        versionName "1.10.0"
 
         // Make sure this is consistent with the redirect URI used in res/raw/auth_config.json,
         // or specify additional redirect URIs in AndroidManifest.xml
@@ -47,7 +54,7 @@ dependencies {
      * import the PingOne for Customer Android SDK. Get the latest version from
      * https://search.maven.org/search?q=g:com.pingidentity.pingonemfa
      */
-    implementation 'com.pingidentity.pingonemfa:android-sdk:1.9.0'
+    implementation 'com.pingidentity.pingonemfa:android-sdk:1.10.0'
     /*
      * import the PingOne for Customer Mobile Authentication Framework
      */
@@ -69,15 +76,15 @@ dependencies {
 
     //to manage lifecycle easily
     implementation "androidx.lifecycle:lifecycle-extensions:2.2.0"
-    implementation 'androidx.appcompat:appcompat:1.6.0'
+    implementation 'androidx.appcompat:appcompat:1.6.1'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
-    implementation 'androidx.navigation:navigation-fragment:2.5.3'
+    implementation 'androidx.navigation:navigation-fragment:2.6.0'
 
     /*
      * To easily build cameraX preview
      */
-    implementation 'androidx.camera:camera-camera2:1.1.0'
-    implementation 'androidx.camera:camera-lifecycle:1.1.0'
+    implementation 'androidx.camera:camera-camera2:1.2.3'
+    implementation 'androidx.camera:camera-lifecycle:1.2.3'
     implementation 'androidx.camera:camera-view:1.0.0-alpha31'
 
     /*
@@ -85,7 +92,7 @@ dependencies {
      * ML Kit's APIs all run on-device, allowing for real-time use cases where you want to process
      * a live camera stream. This also means that the functionality is available offline.
      */
-    implementation 'com.google.mlkit:barcode-scanning:17.0.3'
+    implementation 'com.google.mlkit:barcode-scanning:17.1.0'
 
     /*
      * AppAuth for Android is a client SDK for communicating with OAuth 2.0 and OpenID Connect providers

@@ -78,32 +78,21 @@ public class MobileAuthenticationFrameworkActivity extends AppCompatActivity {
                     public void onClick(DialogInterface dialog, int which) {
                         pairingObject.approve(MobileAuthenticationFrameworkActivity.this, new PingOne.PingOneSDKPairingCallback() {
                             @Override
-                            public void onComplete(@Nullable final PingOneSDKError error) {
-                                runOnUiThread(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        if (error != null) {
-                                            Log.e("Pairing failed", error.getMessage());
-                                        }else{
-                                            pingAuthenticationUI.continueAuthentication(MobileAuthenticationFrameworkActivity.this);
-                                        }
+                            public void onComplete(@Nullable PairingInfo pairingInfo, @Nullable PingOneSDKError error) {
+                                runOnUiThread(() -> {
+                                    if (error != null) {
+                                        Log.e("Pairing failed", error.getMessage());
+                                    }else{
+                                        pingAuthenticationUI.continueAuthentication(MobileAuthenticationFrameworkActivity.this);
                                     }
                                 });
-                            }
-
-                            @Override
-                            public void onComplete(@Nullable PairingInfo pairingInfo, @Nullable final PingOneSDKError pingOneSDKError) {
-                                this.onComplete(pingOneSDKError);
                             }
                         });
                     }
                 })
-                .setNegativeButton(R.string.deny_button_text, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        Toast.makeText(MobileAuthenticationFrameworkActivity.this, "Pairing declined", Toast.LENGTH_LONG).show();
-                        alertDialog.dismiss();
-                    }
+                .setNegativeButton(R.string.deny_button_text, (dialog, which) -> {
+                    Toast.makeText(MobileAuthenticationFrameworkActivity.this, "Pairing declined", Toast.LENGTH_LONG).show();
+                    alertDialog.dismiss();
                 })
                 .create();
         alertDialog.show();

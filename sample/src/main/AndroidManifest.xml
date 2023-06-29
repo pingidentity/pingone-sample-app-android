@@ -1,6 +1,6 @@
+<!--In the Gradle-based build system, starting with AGP 7.3, don't set the package value in the source manifest file directly.-->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    package="com.pingidentity.pingone">
+    xmlns:tools="http://schemas.android.com/tools">
     <queries>
         <intent>
             <action android:name="android.intent.action.VIEW" />

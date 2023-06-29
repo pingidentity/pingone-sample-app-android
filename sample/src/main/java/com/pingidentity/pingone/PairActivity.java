@@ -39,14 +39,6 @@ public class PairActivity extends SampleActivity {
             public void onClick(View v) {
                 buttonPair.setEnabled(false);
                 String activationCode = activationCodeInput.getText().toString();
-                /*
-                 * the PingOne.pair method will trigger the PingOneSDKPairingCallback object's
-                 * onComplete(@Nullable PairingInfo, @Nullable PingOneSDKError) method.
-                 * Since PingOneSDKPairingCallback extends PingOneSDKCallback (for backward
-                 * compatibility reasons) the onComplete(@Nullable PingOneSDKError) method should
-                 * be overridden as well. You can choose to do nothing in this method, it won't be
-                 * called by default.
-                 */
                 PingOne.pair(PairActivity.this, activationCode, new PingOne.PingOneSDKPairingCallback() {
                     @Override
                     public void onComplete(@Nullable PairingInfo pairingInfo, @Nullable PingOneSDKError error) {
@@ -60,17 +52,8 @@ public class PairActivity extends SampleActivity {
                          */
 
                         /*
-                         * proceed with the process by handling the error object. You can parse
-                         * the error here and never call this.onComplete(error) or separate error
-                         * handling to the second callback for more clean code
+                         * proceed with the process by handling the error object.
                          */
-                        this.onComplete(error);
-
-                    }
-
-                    @Override
-                    public void onComplete(@Nullable final PingOneSDKError error) {
-                        Log.i(TAG, "PingOneSDKCallback onComplete method triggered");
                         if (error==null) {
                             Log.i(TAG,"Pairing completed successfully");
                             runOnUiThread(() -> {
