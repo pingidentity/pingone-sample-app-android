@@ -1,38 +1,38 @@
-# PingOne for Customers Mobile SDK sample app
+# PingOne MFA Mobile SDK sample app
 
 ## Overview
 
-PingOne for Customers Mobile SDK is a set of components and services targeted at enabling organizations to include multifactor authentication (MFA) into native applications.
-This solution leverages Ping Identity’s expertise in MFA technology, as a component that can be embedded easily and quickly into a new or existing application. The PingOne for Customers Mobile SDK package comprises of the following components:
+PingOne MFA Mobile SDK is a set of components and services targeted at enabling organizations to include multifactor authentication (MFA) into native applications.
+This solution leverages Ping Identity’s expertise in MFA technology, as a component that can be embedded easily and quickly into a new or existing application. The PingOne MFA Mobile SDK package comprises of the following components:
 
 * A sample app example source code for Android.
 * Mobile Authentication Framework for Android Developers (integrated into the sample app).
 
 Release notes can be found [here](./release-notes.md).
 
-**Note:** The PingOne for Customers Mobile SDK library for Android applications can be found [here](https://github.com/pingidentity/pingone-mobile-sdk-android).
+**Note:** The PingOne MFA Mobile SDK library for Android applications can be found [here](https://github.com/pingidentity/pingone-mobile-sdk-android).
 
 ### Documentation
 
-Reference documentation is available for PingOne for Customers Mobile SDK, describing its capabilities, features, installation and setup, integration with mobile apps, deployment and more:
+Reference documentation is available for PingOne MFA Mobile SDK, describing its capabilities, features, installation and setup, integration with mobile apps, deployment and more:
 
-* [PingOne for Customers Mobile SDK release notes and admin related documentation](https://docs.pingidentity.com/csh?Product=p1&context=p1mfa_c_introduction)
-* [PingOne for Customers Mobile SDK developer documentation](https://apidocs.pingidentity.com/pingone/native-sdks/v1/api/#pingone-mfa-native-sdks)
+* [Introduction to PingOne MFA](https://docs.pingidentity.com/csh?Product=p1&context=p1mfa_c_introduction)
+* [PingOne MFA Mobile SDK Overview](https://apidocs.pingidentity.com/pingone/native-sdks/v1/api/#pingone-mfa-sdk-for-android)
 
 ### Content 
-1. [PingOne Mobile SDK sample app](#1-sample-app)
+1. [PingOne MFA Mobile SDK sample app](#1-sample-app)
    1. [Pairing](#11-pairing)
    2. [Send logs](#12-send-logs)
    3. [Get one time passcode](#13-get-one-time-passcode)
    4. [Authentication via QR code scanning](#14-authentication-via-qr-code-scanning)
 2. [Mobile Authentication Framework](#2-mobile-authentication-framework)
-3. [Migrate from PingID SDK to PingOne SDK](#3-migrate-from-pingid-sdk-to-pingone-sdk)
+3. [Migrate from PingID SDK to PingOne MFA SDK](#3-migrate-from-pingid-sdk-to-pingone-mfa-sdk)
    1. [Manual flow](#31-manual-flow)
    2. [Push notification flow](#32-push-notification-flow)
 
 ### 1 Sample app
 
-The PingOne Mobile SDK bundle provides a sample app that includes all the basic flows in order to help you get started.
+The PingOne MFA Mobile SDK bundle provides a sample app that includes all the basic flows in order to help you get started.
 
 #### 1.1 Pairing
 
@@ -44,7 +44,7 @@ public static void pair(Context context, String pairingKey, PingOneSDKPairingCal
 
 To automatically pair the device using OpenID Connect:
 
-1. Call this method to get the PingOne SDK mobile payload:
+1. Call this method to get the PingOne MFA SDK mobile payload:
 ```java  
 public static String generateMobilePayload(Context context);
 ```  
@@ -56,7 +56,7 @@ public static void processIdToken(String idToken, PingOnePairingObjectCallback c
 
 #### 1.2 Send Logs
 
-The PingOne Mobile SDK bundle writes fixed size, log messages to memory. To send these logs to our server for support, call the
+The PingOne MFA Mobile SDK bundle writes fixed size, log messages to memory. To send these logs to our server for support, call the
 ```public static void sendLogs(Context context, PingOneSendLogsCallback callback)``` method.  
 For example:
  ```java
@@ -90,7 +90,7 @@ For example:
 
 #### 1.4 Authentication via QR code scanning
 
-PingOne SDK provides an ability to authenticate via scanning the QR code (or typing the code manually). The code should  be passed to the PingOne SDK using the following API method:
+PingOne MFA SDK provides an ability to authenticate via scanning the QR code (or typing the code manually). The code should  be passed to the PingOne MFA SDK using the following API method:
 
 ```java  
 PingOne.authenticate(context, authCode, new PingOne.PingOneAuthenticationCallback() {
@@ -171,13 +171,13 @@ PingAuthenticationUI authenticationUI = new PingAuthenticationUI();
 authenticationUI.authenticate(context, mobilePayload, dynamicData);  
 ```
 
-### 3. Migrate from PingID SDK to PingOne SDK
+### 3. Migrate from PingID SDK to PingOne MFA SDK
 
-If your application is currently integrated with PingID SDK, it is possible to migrate to PingOne SDK.
+If your application is currently integrated with PingID SDK, it is possible to migrate to PingOne MFA SDK.
 First, make sure to set up the PingOne environment in the admin console following the convergence documentation.
 Then set up mobile application as follows:
 1. Remove the `PingID_SDK.aar` library file from the `libs` folder of your application and remove any calls to that SDK.
-2. Setup a PingOne mobile SDK as described in the [set-up section](#1-set-up-a-mobile-app-using-the-pingone-sdk-sample-code) and implement the API methods as described in the [PingOne Mobile SDK sample app](#2-pingone-mobile-sdk-sample-app).
+2. Setup a PingOne MFA mobile SDK as described in the [set-up section](https://github.com/pingidentity/pingone-mobile-sdk-android/blob/master/README.md#16-add-the-pingone-sdk-component-into-your-existing-project) and implement the API methods as described in the [PingOne MFA Mobile SDK sample app](#1-sample-app).
 
 #### 3.1 Manual flow
 
