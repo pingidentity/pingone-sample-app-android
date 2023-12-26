@@ -41,4 +41,10 @@
     <string name="channel_description">Channel Description</string>
     <string name="push_toggle">push_toggle</string>
 
+    <!-- PASSKEYS STRING VALUES -->
+    <string name="button_passkeys">Passkeys</string>
+    <string name="sign_in">Sign in</string>
+    <string name="password">Password</string>
+    <string name="username">Username</string>
+
 </resources>

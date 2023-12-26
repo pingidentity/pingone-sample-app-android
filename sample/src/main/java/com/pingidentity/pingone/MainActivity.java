@@ -9,6 +9,7 @@ import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.ToggleButton;
@@ -97,6 +98,7 @@ public class MainActivity extends SampleActivity {
         findViewById(R.id.button_one_time_passcode).setOnClickListener(v -> startActivity(new Intent(MainActivity.this, TOTPActivity.class)));
         findViewById(R.id.button_scan_qr).setOnClickListener(view ->
                 startActivity(new Intent(MainActivity.this, ManualAuthActivity.class)));
+        findViewById(R.id.button_passkeys).setOnClickListener(v -> startActivity(new Intent(MainActivity.this, PasskeysActivity.class)));
     }
 
     public SharedPreferences getSharedPreferences(){
@@ -112,13 +114,17 @@ public class MainActivity extends SampleActivity {
         SharedPreferences prefs = getSharedPreferences("InternalPrefs", MODE_PRIVATE);
         String token = prefs.getString("pushToken", null);
         if(token==null){
-            FirebaseMessaging.getInstance().getToken().addOnCompleteListener(task -> {
 
+            FirebaseMessaging.getInstance().getToken().addOnCompleteListener(task -> {
+                if (task.isSuccessful()) {
                     SharedPreferences.Editor editor = getSharedPreferences("InternalPrefs", MODE_PRIVATE).edit();
                     editor.putString("pushToken", task.getResult());
                     editor.apply();
-                    Log.d(TAG,"FCM Token = " + task.getResult());
-                });
+                    Log.d(TAG, "FCM Token = " + task.getResult());
+                }else {
+                    Log.e("FCM Token Retrieval failed ", task.getException().getMessage());
+                }
+            });
         }else{
             Log.d(TAG,"FCM Token = " + token);
         }
