@@ -1,5 +1,23 @@
 # Release Notes
 
+## v1.11.0 - December 24th, 2023
+Features:
+
+- Updated SDK to version 1.11.0
+- Added passkey client support for authentication and registration flows with Google Credential Manager. This includes utilizing DaVinci endpoints as the server. 
+
+Compatibility:
+
+- Android **target** SDK version is updated to API level 34 (Android 14)
+- Dependencies are updated to their latest versions:
+    * In the 'build.gradle' file at the **app** level:
+        * 'com.google.code.gson:gson:**2.10.1**'
+        * 'com.google.firebase:firebase-bom:**32.2.3**'
+        * 'com.google.android.play:integrity:**1.2.0**'
+        * Removed 'com.google.firebase:firebase-core'
+        * 'androidx.camera:camera-view:**1.3.0-rc02**'
+        * 'com.google.mlkit:barcode-scanning:**17.2.0**'
+        
 
 ## v1.10.0 - June 29th, 2023
 Features:

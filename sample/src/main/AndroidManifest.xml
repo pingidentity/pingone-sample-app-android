@@ -13,6 +13,7 @@
             <data android:scheme="https" />
         </intent>
     </queries>
+    <uses-permission android:name="android.permission.INTERNET"/>
 
     <uses-feature android:name="android.hardware.camera.any"/>
     <uses-permission android:name="android.permission.CAMERA" />
@@ -23,7 +24,7 @@
     <application
         android:allowBackup="false"
         android:icon="@mipmap/ic_launcher"
-        android:label="@string/app_name"
+        android:label="PingOne Sample Application"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="false"
         android:theme="@style/AppTheme"
@@ -64,6 +65,15 @@
         <activity android:name="com.pingidentity.pingone.TOTPActivity"/>
 
         <activity android:name=".ManualAuthActivity"/>
+
+        <activity android:name=".PasskeysActivity"
+            android:exported="false">
+            <intent-filter android:autoVerify="true">
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:scheme="https"/>
+                <data android:host="pingone.mobile.ping-eng.com" />
+            </intent-filter>
+        </activity>
 
         <service
             android:name=".SampleMessagingService"
