@@ -65,10 +65,6 @@
         <activity android:name="com.pingidentity.pingone.TOTPActivity"/>
 
         <activity android:name=".ManualAuthActivity"/>
-        <activity
-            android:name=".NotificationTestsActivity"
-            android:excludeFromRecents="true"
-            android:exported="false" />
 
         <activity android:name=".PasskeysActivity"
             android:exported="false">
