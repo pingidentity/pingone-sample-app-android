@@ -36,6 +36,7 @@ allprojects {
     repositories {
         google()
         mavenCentral()
+        maven {url "https://oss.sonatype.org/content/repositories/snapshots/"}
         /* EnableHuaweiMobileServices
         maven {url 'https://developer.huawei.com/repo/'}
         EnableHuaweiMobileServices */
