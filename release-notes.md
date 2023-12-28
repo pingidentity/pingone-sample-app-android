@@ -12,6 +12,7 @@ Compatibility:
 - Dependencies are updated to their latest versions:
     * In the 'build.gradle' file at the **app** level:
         * 'com.google.code.gson:gson:**2.10.1**'
+        * 'com.google.firebase:firebase-bom:**32.2.3**'
         * 'com.google.android.play:integrity:**1.2.0**'
         * Removed 'com.google.firebase:firebase-core'
         * 'androidx.camera:camera-view:**1.3.0-rc02**'
