@@ -356,9 +356,13 @@ public class PKDeviceFlowManager {
 
                     @Override
                     public void onError(@NonNull GetCredentialException e) {
-                        view.showToastMessage(e.getMessage());
-                        view.hideLoading();
-                        e.printStackTrace();
+                        if (e instanceof NoCredentialException) {
+                            view.promptSignUp();
+                        } else {
+                            view.showToastMessage(e.getMessage());
+                            view.hideLoading();
+                            e.printStackTrace();
+                        }
                     }
                 }
         );
