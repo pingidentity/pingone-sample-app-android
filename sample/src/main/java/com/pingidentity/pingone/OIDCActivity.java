@@ -11,6 +11,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.Toast;
@@ -81,53 +83,66 @@ public class OIDCActivity extends AppCompatActivity {
                     if (pairingObject!=null){
                         //should show approve/deny dialogue
                         showApproveDenyDialog(pairingObject);
+                        return;
                     }
+                    Log.i(TAG, "token: " + response.idToken);
                 });
             });
         }
     }
 
     private void discoverAndAuthorize(){
-        if ((Uri.parse(BuildConfig.OIDC_ISSUER).getScheme() == null ||
-                !Uri.parse(BuildConfig.OIDC_ISSUER).getScheme().startsWith("https"))){
+        Uri issuer = Uri.parse(BuildConfig.OIDC_ISSUER);
+        if (issuer == null || issuer.getScheme() == null || issuer.getScheme().isEmpty() || !issuer.getScheme().startsWith("https")) {
             showOkDialog("Error: OIDC Issuer must start with https scheme");
             return;
         }
-        AuthorizationServiceConfiguration.fetchFromIssuer(Uri.parse(BuildConfig.OIDC_ISSUER),
-                (serviceConfiguration, ex) -> {
+        AuthorizationServiceConfiguration.fetchFromIssuer(issuer, (serviceConfiguration, ex) -> {
             if(ex!=null){
                 Log.e(TAG, "failed to fetch configuration");
                 ex.printStackTrace();
                 return;
             }
-            /*
-             * We need to retrieve from the PingOne SDK an Object called MobilePayload
-             * and add it to the AuthorizationRequest
-             */
-            Map<String, String> payload = new HashMap<>();
-            String mobilePayload = PingOne.generateMobilePayload(OIDCActivity.this);
-            payload.put("mobilePayload", mobilePayload);
             if(serviceConfiguration==null){
                 Log.e(TAG, "failed to fetch configuration");
                 return;
             }
+            /*
+             * We need to retrieve from the PingOne SDK an Object called MobilePayload
+             * and add it to the AuthorizationRequest. Since v.2.0.0 the generateMobilePayload(Context)
+             * is deprecated and will return null on untrusted device. A new method is provided called
+             * generateMobilePayload(Context, PingOne.PingOneSDKMobilePayloadCallback) which returns
+             * mobile payload asynchronously.
+             */
+            Map<String, String> payload = new HashMap<>();
+            PingOne.generateMobilePayload(this, (mobilePayload, error) -> {
+                if(error!=null){
+                    Log.e(TAG, error.toString());
+                    showOkDialog(error.toString());
+                    return;
+                }
+                payload.put("mobilePayload", mobilePayload);
 
-            AuthorizationRequest.Builder authRequestBuilder =
-                    new AuthorizationRequest.Builder(
-                            serviceConfiguration, // the authorization service configuration
-                            BuildConfig.CLIENT_ID, // the client ID, typically pre-registered and static
-                            ResponseTypeValues.CODE, // the response_type value we want is a code
-                            Uri.parse(BuildConfig.OIDC_REDIRECT_URI)); // the redirect URI to which the auth response is sent
+                AuthorizationRequest.Builder authRequestBuilder =
+                        new AuthorizationRequest.Builder(
+                                serviceConfiguration, // the authorization service configuration
+                                BuildConfig.CLIENT_ID, // the client ID, typically pre-registered and static
+                                ResponseTypeValues.CODE, // the response_type value we want is a code
+                                Uri.parse(BuildConfig.OIDC_REDIRECT_URI)); // the redirect URI to which the auth response is sent
 
-            AuthorizationRequest authRequest = authRequestBuilder
-                    .setScope(BuildConfig.SCOPE)
-                    .setAdditionalParameters(payload) //pass the mobile payload to the server
-                    .build();
+                AuthorizationRequest authRequest = authRequestBuilder
+                        .setScope(BuildConfig.SCOPE)
+                        .setAdditionalParameters(payload) //pass the mobile payload to the server
+                        .build();
+                // to handle possible case where result returned in secondary thread
+                new Handler(Looper.getMainLooper()).post(() -> {
+                    authorizationService.performAuthorizationRequest(authRequest,
+                            createPostAuthorizationIntent());
+                    authorizationService.dispose();
+                    finish();
+                });
+            });
 
-            authorizationService.performAuthorizationRequest(authRequest,
-                    createPostAuthorizationIntent());
-            authorizationService.dispose();
-            finish();
         });
     }
 

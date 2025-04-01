@@ -111,8 +111,12 @@ public class SampleHmsMessagingService extends HmsMessageService {
     public void onNewToken(String token) {
         super.onNewToken(token);
         saveHmsRegistrationToken(token);
-        PingOne.setDeviceToken(this, token, NotificationProvider.HMS, pingOneSDKError -> {
-            if (pingOneSDKError != null) {
+        PingOne.setDeviceToken(this, token, NotificationProvider.HMS, errors -> {
+            if(errors!=null){
+                Log.w(TAG, "Setting HMS token failed");
+                for (PingOneSDKError error : errors) {
+                    Log.e(TAG, "Error: " + error);
+                }
                 //re-schedule
             }
         });

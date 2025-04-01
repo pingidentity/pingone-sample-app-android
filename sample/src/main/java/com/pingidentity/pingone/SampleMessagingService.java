@@ -60,6 +60,17 @@ public class SampleMessagingService extends FirebaseMessagingService {
                          * received TEST push from PingOne service, you can choose to do nothing
                          */
                         Log.i("SampleMessagingService", "Test push received");
+                    } else if (pingOneNotificationObject.isCancelAuth()) {
+                        Log.i("SampleMessagingService", "Cancel auth push received");
+                        handleNotificationObjectIntent.putExtra("cancelAuth", true);
+                        startActivity(handleNotificationObjectIntent);
+                    } else if (pingOneNotificationObject.getNumberMatchingType() != null) {
+                        Log.i("SampleMessagingService", "Number matching auth push received");
+                        handleNotificationObjectIntent.putExtra("numberMatchingType", pingOneNotificationObject.getNumberMatchingType());
+                        if (pingOneNotificationObject.getNumberMatchingOptions() != null) {
+                            handleNotificationObjectIntent.putExtra("numberMatchingOptions", pingOneNotificationObject.getNumberMatchingOptions());
+                        }
+                        startActivity(handleNotificationObjectIntent);
                     } else {
                         /*
                          * received push message from PingOne for Customer while app is in foreground.
@@ -77,9 +88,12 @@ public class SampleMessagingService extends FirebaseMessagingService {
                     /*
                      * handle PingOne for Customers TEST push message
                      */
-                    if (pingOneNotificationObject.isTest()){
+                    if (pingOneNotificationObject.isTest() || pingOneNotificationObject.isCancelAuth() || pingOneNotificationObject.getNumberMatchingType()!=null) {
                         sampleNotificationsManager.
-                                buildAndSendPlainNotification(handleNotificationObjectIntent, false);
+                                buildAndSendPlainNotification(
+                                        handleNotificationObjectIntent,
+                                        pingOneNotificationObject.getNumberMatchingType()!=null
+                                );
                         /*
                          * handle PingOne for Customers push message
                          */
@@ -107,10 +121,12 @@ public class SampleMessagingService extends FirebaseMessagingService {
         // If you want to send messages to this application instance or
         // manage this apps subscriptions on the server side, send the
         // Instance ID token to your app server.
-        PingOne.setDeviceToken(this, token, NotificationProvider.FCM, new PingOne.PingOneSDKCallback() {
-            @Override
-            public void onComplete(@Nullable PingOneSDKError pingOneSDKError) {
-                //check for an error and re-schedule service update
+        PingOne.setDeviceToken(this, token, NotificationProvider.FCM, errors -> {
+            if(errors!=null){
+                Log.w(TAG, "Setting HMS token failed");
+                for (PingOneSDKError error : errors) {
+                    Log.e(TAG, "Error: " + error);
+                }
             }
         });
         saveFcmRegistrationToken(token);
@@ -125,10 +141,13 @@ public class SampleMessagingService extends FirebaseMessagingService {
          * to the intent
          */
         handleNotificationObjectIntent.putExtra("PingOneNotification", notificationObject);
-        /*
-         * Optional: parse title and message body from RemoteMessage as well
-         */
-        parseTitleAndBody(remoteMessage, handleNotificationObjectIntent);
+
+        if (notificationObject != null) {
+            /*
+             * Optional: parse title and message body from RemoteMessage as well
+             */
+            parseTitleAndBody(remoteMessage, handleNotificationObjectIntent);
+        }
 
         return handleNotificationObjectIntent;
     }

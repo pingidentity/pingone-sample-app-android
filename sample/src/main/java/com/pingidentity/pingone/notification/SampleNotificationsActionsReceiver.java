@@ -16,6 +16,8 @@ import com.pingidentity.pingidsdkv2.PingOneSDKError;
 
 import static com.pingidentity.pingone.notification.SampleNotificationsManager.NOTIFICATION_ID_SAMPLE_APP;
 
+import java.util.Objects;
+
 public class SampleNotificationsActionsReceiver extends BroadcastReceiver {
 
     public static final String ACTION_APPROVE = "sample_action_approve";
@@ -28,7 +30,7 @@ public class SampleNotificationsActionsReceiver extends BroadcastReceiver {
 
         if (intent.getAction()!=null && intent.getAction().equalsIgnoreCase(ACTION_APPROVE)){
 
-            notificationObject.approve(context, new PingOne.PingOneSDKCallback() {
+            notificationObject.approve(context, "user" , null, new PingOne.PingOneSDKCallback() {
                 @Override
                 public void onComplete(@Nullable PingOneSDKError pingOneSDKError) {
                     Log.i("ActionReceiver", "Approve action completed successfully");

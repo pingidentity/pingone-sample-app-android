@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<lint>
+    <issue id="InvalidPackage">
+        <!-- This is a known issue and is intentional. The logback library deliberately excludes the
+        javax.mail.internet package as a best practice aimed at minimizing the library's size.-->
+        <ignore path="**/logback-android-3.0.0/**" />
+    </issue>
+</lint>

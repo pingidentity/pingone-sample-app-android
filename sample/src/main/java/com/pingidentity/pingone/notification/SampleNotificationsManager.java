@@ -21,10 +21,13 @@ import com.pingidentity.pingone.MainActivity;
 import com.pingidentity.pingone.R;
 import com.pingidentity.pingone.SampleActivity;
 
+
 public class SampleNotificationsManager {
 
     private final String SAMPLE_NOTIFICATION_CHANNEL_ID = "pingOne.sample.channel";
     public static final int NOTIFICATION_ID_SAMPLE_APP = 1003;
+    private static final String NUMBER_MATCHING_SELECT_NUM = "SELECT_NUMBER";
+    private static final String NUMBER_MATCHING_ENTER_MANUALLY = "ENTER_MANUALLY";
 
     private final Context context;
     public SampleNotificationsManager(Context context){
@@ -107,6 +110,53 @@ public class SampleNotificationsManager {
         builder.setAutoCancel(true);
 
         sendNotification(builder);
+    }
+
+    /*
+     * Every notification should respond to a tap, usually to open an activity in your app that
+     * corresponds to the notification. To do so, you must specify a content intent defined with
+     * a PendingIntent object and pass it to setContentIntent().
+     */
+    public void buildAndSendNumMatchingNotification(@NonNull Intent notificationIntent, boolean openApplicationOnTap) {
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(context, SAMPLE_NOTIFICATION_CHANNEL_ID);
+        if (notificationIntent.hasExtra("numberMatchingType")) {
+            if (notificationIntent.getStringExtra("numberMatchingType")==NUMBER_MATCHING_SELECT_NUM) {
+                buildAndSendNumMatchingSelectNotification(notificationIntent);
+            } else if (notificationIntent.getStringExtra("numberMatchingType")==NUMBER_MATCHING_ENTER_MANUALLY) {
+                // TO DO - add custom text input message
+            }
+        }
+    }
+
+    public void buildAndSendNumMatchingSelectNotification(@NonNull Intent notificationIntent) {
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(context, SAMPLE_NOTIFICATION_CHANNEL_ID);
+        builder.setPriority(NotificationCompat.PRIORITY_MAX);
+        builder.setSmallIcon(R.mipmap.ic_launcher);
+
+        if(notificationIntent.hasExtra("title")) {
+            builder.setContentTitle(notificationIntent.getStringExtra("title"));
+        }
+
+        NotificationObject notificationObject = notificationIntent.getParcelableExtra("PingOneNotification");
+        /*
+         * to pass a custom parcelable via pending intent it is needed to wrap it in Bundle
+         * to avoid RuntimeException which may happen on old devices while decoding
+         */
+        Bundle extra = new Bundle();
+        extra.putParcelable("NotificationObject", notificationObject);
+
+        if(notificationIntent.getIntArrayExtra("numberMatchingOptions") != null) {
+            int[] numberMatchingOptions = notificationIntent.getIntArrayExtra("numberMatchingOptions");
+            for (int option : numberMatchingOptions) {
+                Intent approveIntent = new Intent(context, SampleNotificationsActionsReceiver.class);
+                approveIntent.setAction(ACTION_APPROVE);
+                approveIntent.putExtra("numberMatchingPickedValue", option);
+                builder.addAction(createApproveAction(extra));
+            }
+        }
+
+        NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+        notificationManager.notify(1, builder.build());
     }
 
     public void buildAndSendActionsNotification(@NonNull Intent notificationIntent, boolean openOnApprove){

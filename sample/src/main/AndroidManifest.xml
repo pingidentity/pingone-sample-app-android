@@ -24,16 +24,14 @@
     <application
         android:allowBackup="false"
         android:icon="@mipmap/ic_launcher"
-        android:label="PingOne Sample Application"
+        android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="false"
         android:theme="@style/AppTheme"
-        android:resizeableActivity="false"
-        tools:replace="android:name"
         android:name=".SampleApplication">
         <activity android:name=".MainActivity"
             android:screenOrientation="portrait"
-            tools:ignore="LockedOrientationActivity"
+            tools:ignore="DiscouragedApi,LockedOrientationActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -65,6 +63,10 @@
         <activity android:name="com.pingidentity.pingone.TOTPActivity"/>
 
         <activity android:name=".ManualAuthActivity"/>
+        <activity
+            android:name=".NotificationTestsActivity"
+            android:excludeFromRecents="true"
+            android:exported="false" />
 
         <activity android:name=".PasskeysActivity"
             android:exported="false">
@@ -90,5 +92,16 @@
             </intent-filter>
        </service>
       EnableHuaweiMobileServices -->
+
+<!-- Uncomment the following code if you want to disable PingOne SDK lazy initialization -->
+<!--        <provider-->
+<!--            android:name="androidx.startup.InitializationProvider"-->
+<!--            android:authorities="${applicationId}.androidx-startup"-->
+<!--            android:exported="false"-->
+<!--            tools:node="merge">-->
+<!--            <meta-data android:name="com.pingidentity.pingidsdkv2.PingOneSDKInitializer"-->
+<!--                tools:node="remove" />-->
+<!--        </provider>-->
+
     </application>
 </manifest>

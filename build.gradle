@@ -1,4 +1,7 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
+/*
+ * Configures the build script classpath for this project.
+ */
 buildscript {
 
     repositories {
@@ -11,8 +14,23 @@ buildscript {
 
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:8.1.1'
-        classpath 'com.google.gms:google-services:4.3.15'
+        /*
+         * AGP is a plugin that provides support for building Android applications and libraries
+         * using Gradle. It includes tasks and configurations specific to Android development, such
+         * as compiling Java and Kotlin code, packaging resources, and generating APKs.
+         */
+        classpath 'com.android.tools.build:gradle:8.3.2'
+        /*
+         * This plugin is used to integrate Google services, such as Firebase, into Android projects.
+         * It simplifies the process of configuring and managing Google services, such as setting up
+         * authentication and accessing cloud resources.
+         */
+        classpath 'com.google.gms:google-services:4.4.1'
+        /*
+         * This plugin provides support for compiling Kotlin code in Android projects. It includes
+         * tasks and configurations specific to Kotlin development, such as compiling Kotlin files
+         * and generating Java bytecode.
+         */
         classpath 'org.jetbrains.kotlin:kotlin-gradle-plugin:1.8.0'
         /*
          * Gradle plugin called Safe Args that generates simple object and builder classes for
@@ -20,7 +38,7 @@ buildscript {
          * Safe Args is strongly recommended for navigating and passing data, because it ensures
          * type-safety.
          */
-        classpath 'androidx.navigation:navigation-safe-args-gradle-plugin:2.7.2'
+        classpath 'androidx.navigation:navigation-safe-args-gradle-plugin:2.7.7'
 
 
         /* EnableHuaweiMobileServices
@@ -30,9 +48,10 @@ buildscript {
 
 
 }
-
+/*
+ * Configures this project and each of its sub-projects.
+ */
 allprojects {
-
     repositories {
         google()
         mavenCentral()

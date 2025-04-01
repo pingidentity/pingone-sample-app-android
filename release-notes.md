@@ -1,5 +1,15 @@
 # Release Notes
 
+## v2.0.0 - April 1st, 2025
+Features:
+
+- Updated SDK to version 2.0.0.
+- Added multi-region support (users from different regions can pair to the same app).
+- Includes use of the new mandatory method, `configure`, which is required to set up the SDK.
+- Includes testing of push notification functionality using the new SDK method `testRemoteNotification`.
+- The sample app supports number matching and cancel authentication. For more details, refer to the [documentation] (https://github.com/pingidentity/pingone-mobile-sdk-android/blob/master/release-notes.md).
+
+
 ## v1.11.0 - December 24th, 2023
 Features:
 
