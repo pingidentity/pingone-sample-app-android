@@ -16,6 +16,13 @@
 # debugging stack traces.
 #-keepattributes SourceFile,LineNumberTable
 
+# Keep PingOne MFA SDK serialization classes.
+-keep class com.pingidentity.pingidsdkv2.** {
+    *;
+}
+-keep class com.pingidentity.pingonemfa.** {
+    *;
+}
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile

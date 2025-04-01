@@ -1,11 +1,13 @@
 <resources>
 
+    <string name="app_name">PingOne Sample Application</string>
+
     <string name="button_regular_pairing_text">Manual Pairing</string>
     <string name="button_oidc_log_in_text">OIDC Automatic Pairing</string>
     <string name="button_authentication_api_text">Authentication Api</string>
     <string name="button_send_logs_text">Send logs</string>
 
-    <string name="activation_code_hint">Activation code</string>
+    <string name="activation_code_hint">Pairing key</string>
 
     <string name="pair_button_text">PAIR</string>
     <string name="start_auth_button_text">Start Authentication</string>
@@ -15,6 +17,9 @@
     <!--NOTIFICATIONS STRINGS-->
     <string name="notification_action_approve">Approve</string>
     <string name="notification_action_deny">Deny</string>
+
+    <string name="notification_tests_title">Notification tests</string>
+    <string name="button_test_notification">Test push</string>
 
     <!--QR AUTHENTICATION STRINGS-->
     <string name="edit_text_userless_auth"><font size="17">Enter authentication code manually</font></string>
@@ -37,9 +42,12 @@
 
     <string name="text_view_app_version" translatable="false">text_view_app_version</string>
 
+    <string name="button_notification_test">Notification test</string>
     <string name="channel_name">Notifications Channel</string>
     <string name="channel_description">Channel Description</string>
     <string name="push_toggle">push_toggle</string>
+    <string name="notification_test_pass">notification test pass</string>
+    <string name="notification_test_fail">notification test fail</string>
 
     <!-- PASSKEYS STRING VALUES -->
     <string name="button_passkeys">Passkeys</string>

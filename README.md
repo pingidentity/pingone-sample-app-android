@@ -20,22 +20,31 @@ Reference documentation is available for PingOne MFA Mobile SDK, describing its 
 * [PingOne MFA Mobile SDK Overview](https://apidocs.pingidentity.com/pingone/native-sdks/v1/api/#pingone-mfa-sdk-for-android)
 
 ### Content 
-1. [PingOne MFA Mobile SDK sample app](#1-sample-app)
-   1. [Pairing](#11-pairing)
-   2. [Send logs](#12-send-logs)
-   3. [Get one time passcode](#13-get-one-time-passcode)
-   4. [Authentication via QR code scanning](#14-authentication-via-qr-code-scanning)
+1. [Getting started](#getting_started)
+   1. [Configure](#11-configure)
+   2. [Pairing](#12-pairing)
+   3. [Send logs](#13-send-logs)
+   4. [Get one time passcode](#14-get-one-time-passcode)
+   5. [Authentication via QR code scanning](#15-authentication-via-qr-code-scanning)
+   6. [Test remote notification](#16-testPush)
 2. [Mobile Authentication Framework](#2-mobile-authentication-framework)
 3. [Migrate from PingID SDK to PingOne MFA SDK](#3-migrate-from-pingid-sdk-to-pingone-mfa-sdk)
    1. [Manual flow](#31-manual-flow)
    2. [Push notification flow](#32-push-notification-flow)
 4. [Passkeys Implementation](./Passkeys/Passkeys_Implementation.md)
 
-### 1 Sample app
+<a name="getting_started"></a>
+### 1.0 Getting started
 
 The PingOne MFA Mobile SDK bundle provides a sample app that includes all the basic flows in order to help you get started.
 
-#### 1.1 Pairing
+<a name="11-configure"></a>
+#### 1.1 Configure the SDK
+
+You must configure the SDK at least once before using it. See the SDK documentation [here](https://github.com/pingidentity/pingone-mobile-sdk-android#17-configure-sdk).
+
+<a name="12-pairing"></a>
+#### 1.2 Pairing
 
 To manually pair the device, call the following method with your pairing key:
 
@@ -55,7 +64,8 @@ public static String generateMobilePayload(Context context);
 public static void processIdToken(String idToken, PingOnePairingObjectCallback callback);  
 ```  
 
-#### 1.2 Send Logs
+<a name="13-send-logs"></a>
+#### 1.3 Send Logs
 
 The PingOne MFA Mobile SDK bundle writes fixed size, log messages to memory. To send these logs to our server for support, call the
 ```public static void sendLogs(Context context, PingOneSendLogsCallback callback)``` method.  
@@ -70,7 +80,8 @@ For example:
 });  
 ```  
 
-#### 1.3 Get One Time Passcode
+<a name="14-get-one-time-passcode"></a>
+#### 1.4 Get One Time Passcode
 
 Requests the SDK to provide One Time Passcode.
 
@@ -88,8 +99,8 @@ For example:
  };  
 ```  
 
-
-#### 1.4 Authentication via QR code scanning
+<a name="15-authentication-via-qr-code-scanning"></a>
+#### 1.5 Authentication via QR code scanning
 
 PingOne MFA SDK provides an ability to authenticate via scanning the QR code (or typing the code manually). The code should  be passed to the PingOne MFA SDK using the following API method:
 
@@ -157,7 +168,16 @@ public class UserModel{
     String username;
 }  
 ```  
+<a name="16-testPush"></a>
+#### 1.6 Test remote notification
 
+For paired devices, it is possible to test push notification functionality using the `testRemoteNotification` method:
+
+```java 
+public static void testRemoteNotification(Context context, PingOneRegion region, PingOneTestRemoteNotificationCallback callback);
+```
+
+<a name="2-mobile-authentication-framework"></a>
 ### 2. Mobile Authentication Framework
 
 The sample code contains two modules: `PingAuthenticationUI` and `PingAuthenticationCore`.  
@@ -172,6 +192,7 @@ PingAuthenticationUI authenticationUI = new PingAuthenticationUI();
 authenticationUI.authenticate(context, mobilePayload, dynamicData);  
 ```
 
+<a name="3-migrate-from-pingid-sdk-to-pingone-mfa-sdk"></a>
 ### 3. Migrate from PingID SDK to PingOne MFA SDK
 
 If your application is currently integrated with PingID SDK, it is possible to migrate to PingOne MFA SDK.
@@ -180,6 +201,7 @@ Then set up mobile application as follows:
 1. Remove the `PingID_SDK.aar` library file from the `libs` folder of your application and remove any calls to that SDK.
 2. Setup a PingOne MFA mobile SDK as described in the [set-up section](https://github.com/pingidentity/pingone-mobile-sdk-android/blob/master/README.md#16-add-the-pingone-sdk-component-into-your-existing-project) and implement the API methods as described in the [PingOne MFA Mobile SDK sample app](#1-sample-app).
 
+<a name="31-manual-flow"></a>
 #### 3.1 Manual flow
 
 Call the migration API method:
@@ -239,6 +261,7 @@ MIGRATION_ALREADY_RUNNING(10014, "Migration is already in progress - you cannot 
 MIGRATION_NOT_NEEDED(10015, "The device does not have to be migrated because it is already paired.")
 ```
 
+<a name="32-push-notification-flow"></a>
 #### 3.2 Push notification flow
 
 Upon getting authentication push notification, the migration will start **automatically** in a background thread.
@@ -255,4 +278,4 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SAMPLE CODE OR THE USE OR OTHER DEALINGS IN  
 THE SAMPLE CODE.  FURTHERMORE, THIS SAMPLE CODE IS NOT COMMERCIALLY SUPPORTED BY PING IDENTITY BUT QUESTIONS MAY BE ADDRESSED TO PING'S SUPPORT CENTER OR MAY BE OTHERWISE ADDRESSED IN THE RELATED DOCUMENTATION.
 
-Any questions or issues should go to the support center, or may be discussed in the [Ping Identity developer communities](https://support.pingidentity.com/s/topic/0TO1W000000atTxWAI/pingone-mfa).
+Any questions or issues should go to the support center, or may be discussed in the [Ping Identity developer communities](https://support.pingidentity.com/s/topic/0TO1W000000atTxWAI/pingone-mfa)

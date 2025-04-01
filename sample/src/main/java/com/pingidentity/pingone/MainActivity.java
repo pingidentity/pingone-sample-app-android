@@ -99,6 +99,7 @@ public class MainActivity extends SampleActivity {
         findViewById(R.id.button_scan_qr).setOnClickListener(view ->
                 startActivity(new Intent(MainActivity.this, ManualAuthActivity.class)));
         findViewById(R.id.button_passkeys).setOnClickListener(v -> startActivity(new Intent(MainActivity.this, PasskeysActivity.class)));
+        findViewById(R.id.button_test_notification).setOnClickListener(v -> startActivity(new Intent(MainActivity.this, NotificationTestsActivity.class)));
     }
 
     public SharedPreferences getSharedPreferences(){
