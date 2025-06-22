@@ -1,5 +1,25 @@
 # Release Notes
 
+## v2.1.0 - June 22nd, 2025
+Features:
+
+- Updated SDK to version 2.1.0.
+- Added support for the PingOne Singapore geography.
+
+Compatibility:
+
+- Dependencies are updated to their latest versions:
+  * In the 'build.gradle' file at the **app** level:
+    * 'com.google.firebase:firebase-bom:**33.15.0**'
+    * 'com.google.android.play:integrity:**1.4.0**'
+    * 'androidx.constraintlayout:constraintlayout:**2.2.1**'
+    * 'androidx.navigation:navigation-fragment:**2.9.0**'
+    * 'androidx.camera:camera-camera2:**1.4.2**'
+    * 'androidx.camera:camera-lifecycle:**1.4.2**'
+    * 'androidx.camera:camera-view:**1.4.2**'
+    * 'com.google.mlkit:barcode-scanning:**17.3.0**'
+
+
 ## v2.0.0 - April 1st, 2025
 Features:
 
