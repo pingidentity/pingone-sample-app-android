@@ -1,35 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:android="http://schemas.android.com/apk/res/android">
-<LinearLayout
-    android:orientation="vertical" android:layout_width="match_parent"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <EditText
-        android:id="@+id/activation_code_input"
-        android:contentDescription="@string/edit_text_pairing_key"
+
+    <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        android:layout_marginLeft="40dp"
-        android:layout_marginRight="40dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginBottom="20dp"
-        android:padding="5dp"
-        android:textSize="24sp"
-        android:hint="@string/activation_code_hint"
-        android:imeOptions="actionDone"
-        style="@style/activation_code_edit_text"
-        android:inputType="textCapCharacters"/>
+        android:fitsSystemWindows="true">
 
-    <Button
-        android:id="@+id/button_pair"
-        android:layout_gravity="center"
-        android:contentDescription="@string/button_pair"
-        android:padding="10dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/pair_button_text"/>
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="0dp" />
 
-</LinearLayout>
-</RelativeLayout>
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <EditText
+                android:id="@+id/activation_code_input"
+                style="@style/activation_code_edit_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="40dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginRight="40dp"
+                android:layout_marginBottom="20dp"
+                android:contentDescription="@string/edit_text_pairing_key"
+                android:gravity="center"
+                android:hint="@string/activation_code_hint"
+                android:imeOptions="actionDone"
+                android:inputType="textCapCharacters"
+                android:padding="5dp"
+                android:textSize="24sp" />
+
+            <Button
+                android:id="@+id/button_pair"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:contentDescription="@string/button_pair"
+                android:padding="10dp"
+                android:text="@string/pair_button_text" />
+
+        </LinearLayout>
+    </RelativeLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

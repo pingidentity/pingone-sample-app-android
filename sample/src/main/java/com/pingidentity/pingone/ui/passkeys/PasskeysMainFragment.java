@@ -17,14 +17,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 
 import com.pingidentity.pingone.R;
-import com.pingidentity.pingone.SampleActivity;
 import com.pingidentity.pingone.passkeys.PKDeviceFlowManager;
-
-import java.io.IOException;
-
-import okhttp3.Call;
-import okhttp3.Callback;
-import okhttp3.Response;
 
 public class PasskeysMainFragment extends Fragment {
 
@@ -50,7 +43,7 @@ public class PasskeysMainFragment extends Fragment {
         buttonSignIn = view.findViewById(R.id.button_sign_in_passkeys);
 
         buttonSignIn.setOnClickListener(
-                view1 -> passkeysFlowManager.startPasskeysSignIn()
+                view1 -> passkeysFlowManager.startAuthorizationFlow()
         );
         hideLoading();
     }
@@ -100,10 +93,10 @@ public class PasskeysMainFragment extends Fragment {
     public void showSignUpDialog(){
         LayoutInflater factory = LayoutInflater.from(requireContext());
         final View textEntryView = factory.inflate(R.layout.dialog_login, null);
-        final EditText usernameInput = (EditText) textEntryView.findViewById(R.id.userNameEditText);
-        final EditText passwordInput = (EditText) textEntryView.findViewById(R.id.passwordEditText);
-        final TextView usernameTitle = (TextView) textEntryView.findViewById(R.id.userNameTextView);
-        final TextView passwordTile = (TextView) textEntryView.findViewById(R.id.passwordTextView);
+        final EditText usernameInput = textEntryView.findViewById(R.id.userNameEditText);
+        final EditText passwordInput = textEntryView.findViewById(R.id.passwordEditText);
+        final TextView usernameTitle = textEntryView.findViewById(R.id.userNameTextView);
+        final TextView passwordTile = textEntryView.findViewById(R.id.passwordTextView);
 
         float dpi = getContext().getResources().getDisplayMetrics().density;
         textEntryView.setPadding((int)(20*dpi), (int)(8*dpi), (int)(20*dpi), (int)(5*dpi));
@@ -124,6 +117,18 @@ public class PasskeysMainFragment extends Fragment {
             // Canceled.
         });
         alert.create().show();
+    }
+    public void showSimpleAlertDialogue(String title, String message){
+        new Handler(Looper.getMainLooper()).post(() -> {
+            AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
+            builder.setTitle(title);
+            builder.setMessage(message);
+            builder.setPositiveButton("OK", (dialog, which) -> {
+                // User clicked OK button
+                dialog.dismiss();
+            });
+            builder.create().show();
+        });
     }
 }
 

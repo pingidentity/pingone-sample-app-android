@@ -1,77 +1,103 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:padding="@dimen/fragment_vertical_margin"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <Button
-        android:id="@+id/button_pairing_key"
-        android:layout_gravity="center"
-        android:contentDescription="@string/button_regular_pairing"
-        android:layout_width="wrap_content"
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/button_regular_pairing_text"/>
-    <Button
-        android:id="@+id/button_pairing_oidc"
-        android:layout_gravity="center"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:contentDescription="@string/button_oidc_pairing"
-        android:text="@string/button_oidc_log_in_text"/>
-    <Button
-        android:id="@+id/button_authentication_api"
-        android:layout_gravity="center"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:contentDescription="@string/button_authentication_api"
-        android:text="@string/button_authentication_api_text"/>
+        android:fitsSystemWindows="true">
 
-    <Button
-        android:id="@+id/button_send_logs"
-        android:layout_gravity="center"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:contentDescription="@string/button_send_logs"
-        android:text="@string/button_send_logs_text"/>
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:title="@string/app_name" />
 
-    <ToggleButton
-        android:id="@+id/toggle_allow_push"
-        android:contentDescription="@string/push_toggle"
-        android:layout_gravity="center_horizontal"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textOn="Disable Push Response"
-        android:textOff="Enable Push Response"/>
+    </com.google.android.material.appbar.AppBarLayout>
 
-    <Button android:id="@+id/button_one_time_passcode"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:text="One Time Passcode"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="@dimen/fragment_vertical_margin"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-    <Button android:id="@+id/button_scan_qr"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:text="@string/button_qr_authentication"/>
+        <Button
+            android:id="@+id/button_pairing_key"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:contentDescription="@string/button_regular_pairing"
+            android:text="@string/button_regular_pairing_text" />
 
-    <Button android:id="@+id/button_passkeys"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:text="@string/button_passkeys"/>
+        <Button
+            android:id="@+id/button_pairing_oidc"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:contentDescription="@string/button_oidc_pairing"
+            android:text="@string/button_oidc_log_in_text" />
 
-    <Button android:id="@+id/button_test_notification"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:text="@string/button_notification_test"/>
+        <Button
+            android:id="@+id/button_authentication_api"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:contentDescription="@string/button_authentication_api"
+            android:text="@string/button_authentication_api_text" />
 
-    <TextView
-        android:id="@+id/text_view_app_version"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:contentDescription="@string/text_view_app_version" />
-</LinearLayout>
+        <Button
+            android:id="@+id/button_send_logs"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:contentDescription="@string/button_send_logs"
+            android:text="@string/button_send_logs_text" />
+
+        <ToggleButton
+            android:id="@+id/toggle_allow_push"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:contentDescription="@string/push_toggle"
+            android:textOff="Enable Push Response"
+            android:textOn="Disable Push Response" />
+
+        <Button
+            android:id="@+id/button_one_time_passcode"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="One Time Passcode" />
+
+        <Button
+            android:id="@+id/button_scan_qr"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="@string/button_qr_authentication" />
+
+        <Button
+            android:id="@+id/button_passkeys"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="@string/button_passkeys" />
+
+        <Button
+            android:id="@+id/button_test_notification"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="@string/button_notification_test" />
+
+        <TextView
+            android:id="@+id/text_view_app_version"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:contentDescription="@string/text_view_app_version" />
+    </LinearLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

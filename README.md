@@ -19,18 +19,18 @@ Reference documentation is available for PingOne MFA Mobile SDK, describing its 
 * [Introduction to PingOne MFA](https://docs.pingidentity.com/csh?Product=p1&context=p1mfa_c_introduction)
 * [PingOne MFA Mobile SDK Overview](https://apidocs.pingidentity.com/pingone/native-sdks/v1/api/#pingone-mfa-sdk-for-android)
 
-### Content 
+### Content
 1. [Getting started](#getting_started)
-   1. [Configure](#11-configure)
-   2. [Pairing](#12-pairing)
-   3. [Send logs](#13-send-logs)
-   4. [Get one time passcode](#14-get-one-time-passcode)
-   5. [Authentication via QR code scanning](#15-authentication-via-qr-code-scanning)
-   6. [Test remote notification](#16-testPush)
+    1. [Configure](#11-configure)
+    2. [Pairing](#12-pairing)
+    3. [Send logs](#13-send-logs)
+    4. [Get one time passcode](#14-get-one-time-passcode)
+    5. [Authentication via QR code scanning](#15-authentication-via-qr-code-scanning)
+    6. [Test remote notification](#16-testPush)
 2. [Mobile Authentication Framework](#2-mobile-authentication-framework)
 3. [Migrate from PingID SDK to PingOne MFA SDK](#3-migrate-from-pingid-sdk-to-pingone-mfa-sdk)
-   1. [Manual flow](#31-manual-flow)
-   2. [Push notification flow](#32-push-notification-flow)
+    1. [Manual flow](#31-manual-flow)
+    2. [Push notification flow](#32-push-notification-flow)
 4. [Passkeys Implementation](./Passkeys/Passkeys_Implementation.md)
 
 <a name="getting_started"></a>

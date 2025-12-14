@@ -150,6 +150,16 @@ private void signUpPasskey(String passkeyCreationRequest){
 }
 ```
 
+### 5. Automatic PassKey Enrollment
+Automatic passkey enrollment uses a conditional request (Android Credential Manager) to surface an "Upgrade to passkey" path with minimal user friction. Enable it by setting `IS_AUTO_ENROLLMENT_ENABLED = true` in `build.gradle`; the logic is contained in `PKDeviceFlowManager`.
+
+The automatic upgrade is shown only if the user already has a saved username and password credential in a supporting credential provider (credential provider that currently supports automatic passkeys, for example, Google's credential provider). When those prerequisites are met, Android can present a conditional UI allowing the user to create a passkey without first re‑entering their password.
+
+#### Preconditions
+* User has previously registered or signed in with a username + password.
+* That password credential was saved by the credential provider (user accepted the save prompt).
+* The credential provider supports passkey auto‑upgrade (beta; not universal yet).
+
 ## Disclaimer
 
 THE SAMPLE CODE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SAMPLE CODE OR THE USE OR OTHER DEALINGS IN THE SAMPLE CODE.  FURTHERMORE, THIS SAMPLE CODE IS NOT COMMERCIALLY SUPPORTED BY PING IDENTITY BUT QUESTIONS MAY BE ADDRESSED TO PING'S SUPPORT CENTER OR MAY BE OTHERWISE ADDRESSED IN THE RELATED DOCUMENTATION.

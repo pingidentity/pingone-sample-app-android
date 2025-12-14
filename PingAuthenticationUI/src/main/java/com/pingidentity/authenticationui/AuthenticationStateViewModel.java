@@ -10,7 +10,7 @@ import com.pingidentity.authcore.models.AuthenticationState;
  * The logic will update a value {@link #authenticationStateMutableLiveData} and any UI
  * component can register an observer to this value to receive updates at the runtime.
  * @version 1.0.0
- * @see androidx.lifecycle.ViewModel
+ * @see ViewModel
  *
  * See LICENSE.txt for the Ping Authentication licensing information.
  *
