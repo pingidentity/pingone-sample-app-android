@@ -10,7 +10,7 @@ import java.net.HttpURLConnection;
 import javax.net.ssl.HttpsURLConnection;
 
 /**
- * Creates {@link java.net.HttpURLConnection} instances for use in direct interactions
+ * Creates {@link HttpURLConnection} instances for use in direct interactions
  * with the authorization service, i.e. those not performed via a browser.
  *
  * See LICENSE.txt for the Ping Authentication licensing information.

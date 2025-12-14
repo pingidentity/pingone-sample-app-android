@@ -4,8 +4,10 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.pingidentity.pingone.BuildConfig;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 
 public class PKDataManager {
@@ -40,8 +42,32 @@ public class PKDataManager {
     public String getOrigin() {
         return origin;
     }
-    public void setOrigin(String origin) {
-        this.origin = origin;
+    public void setOrigin(String assertion) {
+        JSONObject assertionObj;
+        try {
+            assertionObj = new JSONObject(assertion);
+
+            JSONObject originParentObj;
+            if (assertionObj.has("response")) {
+                // Step 1: Extract the response object
+                JSONObject responseObj = assertionObj.getJSONObject("response");
+                // Step 2: clientDataJSON is Base64URL-encoded
+                String clientJSONString = responseObj.getString("clientDataJSON");
+                // Step 3: Decode the JSON string
+                String decodedJSONString = new String(
+                        Base64.getUrlDecoder().decode(clientJSONString),  // Use URL decoder for WebAuthn
+                        StandardCharsets.UTF_8
+                );
+                // Step 4: Parse decoded JSON
+                originParentObj = new JSONObject(decodedJSONString);
+            } else {
+                originParentObj = assertionObj;
+            }
+            // Step 5: origin (e.g. "android:apk-key-hash:XXXX")
+            this.origin = originParentObj.getString("origin");
+        } catch (JSONException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public String getUsername() {
@@ -54,7 +80,7 @@ public class PKDataManager {
     /*
      * Prepares a string request to the Credential Manager API's
      */
-    public String preparePublicKeyCredentialCreationOptions(JsonObject publicKeyCredentialCreationOptions) throws JSONException {
+    public String preparePublicKeyCredentialCreationOptions(JsonObject publicKeyCredentialCreationOptions){
         // convert user id to String
         JsonArray byteArrayUserId = publicKeyCredentialCreationOptions.getAsJsonObject("user").getAsJsonArray("id");
         String userId = convertByteArrayToString(byteArrayUserId);
@@ -64,21 +90,11 @@ public class PKDataManager {
         String challengeAsString = convertByteArrayToString(byteArrayChallenge);
         publicKeyCredentialCreationOptions.addProperty("challenge", challengeAsString);
         // set origin
-        publicKeyCredentialCreationOptions.addProperty("origin", BuildConfig.PASSKEYS_RP_ID);;
+        publicKeyCredentialCreationOptions.addProperty("origin", BuildConfig.PASSKEYS_RP_ID);
+        // set excludeCredentials to empty array to avoid errors, in real implementations this should
+        // contain the list of existing credentials to prevent creating duplicates
+        publicKeyCredentialCreationOptions.add("excludeCredentials", new JsonArray());
         return publicKeyCredentialCreationOptions.toString();
-    }
-    public static String getOriginFromAssertion(String json) throws JSONException {
-        JSONObject assertionObj = new JSONObject(json);
-        JSONObject originParentObj;
-        if (assertionObj.has("response")) {
-            JSONObject responseObj = assertionObj.getJSONObject("response");
-            String clientJSONString = responseObj.getString("clientDataJSON");
-            String decodedJSONString = new String(Base64.getDecoder().decode(clientJSONString));
-            originParentObj = new JSONObject(decodedJSONString);
-        } else {
-            originParentObj = assertionObj;
-        }
-        return originParentObj.getString("origin");
     }
 
     public static String convertByteArrayToString(JsonArray arrayOfBytes) {

@@ -19,13 +19,13 @@ buildscript {
          * using Gradle. It includes tasks and configurations specific to Android development, such
          * as compiling Java and Kotlin code, packaging resources, and generating APKs.
          */
-        classpath 'com.android.tools.build:gradle:8.3.2'
+        classpath 'com.android.tools.build:gradle:8.13.0'
         /*
          * This plugin is used to integrate Google services, such as Firebase, into Android projects.
          * It simplifies the process of configuring and managing Google services, such as setting up
          * authentication and accessing cloud resources.
          */
-        classpath 'com.google.gms:google-services:4.4.1'
+        classpath 'com.google.gms:google-services:4.4.4'
         /*
          * This plugin provides support for compiling Kotlin code in Android projects. It includes
          * tasks and configurations specific to Kotlin development, such as compiling Kotlin files

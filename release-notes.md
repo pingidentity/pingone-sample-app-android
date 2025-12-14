@@ -1,5 +1,11 @@
 # Release Notes
 
+## v2.2.0 - December 11th, 2025
+Features:
+
+- Updated SDK to version 2.2.0.
+- Added automatic passkey support
+
 ## v2.1.1 - July 6th, 2025
 Features:
 
@@ -19,15 +25,15 @@ Features:
 Compatibility:
 
 - Dependencies are updated to their latest versions:
-  * In the 'build.gradle' file at the **app** level:
-    * 'com.google.firebase:firebase-bom:**33.15.0**'
-    * 'com.google.android.play:integrity:**1.4.0**'
-    * 'androidx.constraintlayout:constraintlayout:**2.2.1**'
-    * 'androidx.navigation:navigation-fragment:**2.9.0**'
-    * 'androidx.camera:camera-camera2:**1.4.2**'
-    * 'androidx.camera:camera-lifecycle:**1.4.2**'
-    * 'androidx.camera:camera-view:**1.4.2**'
-    * 'com.google.mlkit:barcode-scanning:**17.3.0**'
+    * In the 'build.gradle' file at the **app** level:
+        * 'com.google.firebase:firebase-bom:**33.15.0**'
+        * 'com.google.android.play:integrity:**1.4.0**'
+        * 'androidx.constraintlayout:constraintlayout:**2.2.1**'
+        * 'androidx.navigation:navigation-fragment:**2.9.0**'
+        * 'androidx.camera:camera-camera2:**1.4.2**'
+        * 'androidx.camera:camera-lifecycle:**1.4.2**'
+        * 'androidx.camera:camera-view:**1.4.2**'
+        * 'com.google.mlkit:barcode-scanning:**17.3.0**'
 
 
 ## v2.0.0 - April 1st, 2025
@@ -44,7 +50,7 @@ Features:
 Features:
 
 - Updated SDK to version 1.11.0
-- Added passkey client support for authentication and registration flows with Google Credential Manager. This includes utilizing DaVinci endpoints as the server. 
+- Added passkey client support for authentication and registration flows with Google Credential Manager. This includes utilizing DaVinci endpoints as the server.
 
 Compatibility:
 
@@ -57,7 +63,7 @@ Compatibility:
         * Removed 'com.google.firebase:firebase-core'
         * 'androidx.camera:camera-view:**1.3.0-rc02**'
         * 'com.google.mlkit:barcode-scanning:**17.2.0**'
-        
+
 
 ## v1.10.0 - June 29th, 2023
 Features:
@@ -83,7 +89,7 @@ Features:
 
 - Updated SDK to version 1.9.0
 - **Device integrity validation migrated from SafetyNet API to Play Integrity API.
-    Note that this version of the SDK is not backward-compatible with previous versions in terms of integrity validation. If you want to use the new version of the SDK, you will need to configure Play Integrity to ensure the integrity of your data. If you have not done so, and integrity checking is enabled for the application, users may be blocked.**
+  Note that this version of the SDK is not backward-compatible with previous versions in terms of integrity validation. If you want to use the new version of the SDK, you will need to configure Play Integrity to ensure the integrity of your data. If you have not done so, and integrity checking is enabled for the application, users may be blocked.**
 - Performance improvements.
 
 Compatibility:
