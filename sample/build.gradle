@@ -16,8 +16,8 @@ android {
         applicationId "com.pingidentity.pingone"
         minSdkVersion 26
         targetSdkVersion 36
-        versionCode = 27
-        versionName "2.2.0"
+        versionCode = 28
+        versionName "2.2.1"
 
         // Make sure this is consistent with the redirect URI used in res/raw/auth_config.json,
         // or specify additional redirect URIs in AndroidManifest.xml
@@ -73,7 +73,7 @@ dependencies {
      * import the PingOne for Customer Android SDK. Get the latest version from
      * https://search.maven.org/search?q=g:com.pingidentity.pingonemfa
      */
-    implementation 'com.pingidentity.pingonemfa:android-sdk:2.2.0'
+    implementation 'com.pingidentity.pingonemfa:android-sdk:2.2.1'
     /*
      * import the PingOne for Customer Mobile Authentication Framework
      */
