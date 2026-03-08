@@ -29,6 +29,7 @@ import java.util.Objects;
 public class SampleMessagingService extends FirebaseMessagingService {
 
     private final String TAG = SampleMessagingService.class.getCanonicalName();
+
     @Override
     public void onMessageReceived(@NonNull final RemoteMessage remoteMessage) {
         Log.i(TAG, "Firebase RemoteMessage received");
@@ -80,7 +81,7 @@ public class SampleMessagingService extends FirebaseMessagingService {
                     /*
                      * handle state where application was closed/background when push was received
                      */
-                }else{
+                } else {
                     /*
                      * create notifications manager
                      */
@@ -173,5 +174,4 @@ public class SampleMessagingService extends FirebaseMessagingService {
         editor.putString("pushToken", token);
         editor.apply();
     }
-
 }
