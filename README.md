@@ -26,7 +26,8 @@ Reference documentation is available for PingOne MFA Mobile SDK, describing its 
     3. [Send logs](#13-send-logs)
     4. [Get one time passcode](#14-get-one-time-passcode)
     5. [Authentication via QR code scanning](#15-authentication-via-qr-code-scanning)
-    6. [Test remote notification](#16-testPush)
+    6. [Test remote notification](#16-test-push)
+    7. [Push approval and denial](#17-push-approval-and-denial)
 2. [Mobile Authentication Framework](#2-mobile-authentication-framework)
 3. [Migrate from PingID SDK to PingOne MFA SDK](#3-migrate-from-pingid-sdk-to-pingone-mfa-sdk)
     1. [Manual flow](#31-manual-flow)
@@ -56,7 +57,7 @@ To automatically pair the device using OpenID Connect:
 
 1. Call this method to get the PingOne MFA SDK mobile payload:
 ```java  
-public static String generateMobilePayload(Context context);
+public static void generateMobilePayload(Context context, PingOneGenerateMobilePayloadCallback callback);
 ```  
 2. Pass the received mobile payload on the OIDC request as the value of query param: `mobilePayload`
 3. Call this function with the ID token after the OIDC authentication completes:
@@ -168,13 +169,41 @@ public class UserModel{
     String username;
 }  
 ```  
-<a name="16-testPush"></a>
+<a name="16-test-push"></a>
 #### 1.6 Test remote notification
 
 For paired devices, it is possible to test push notification functionality using the `testRemoteNotification` method:
 
 ```java 
-public static void testRemoteNotification(Context context, PingOneRegion region, PingOneTestRemoteNotificationCallback callback);
+public static void testRemoteNotification(Context context, PingOneGeo geo, PingOneTestRemoteNotificationCallback callback);
+```
+
+<a name="17-push-approval-and-denial"></a>
+#### 1.7 Push approval and denial
+
+When the sample app receives a `NotificationObject`, it demonstrates approving push authentication with `PingOneMobileConfirmationCallback`:
+
+```java
+notificationObject.approve(context, "user", null, new PingOne.PingOneMobileConfirmationCallback() {
+    @Override
+    public void onComplete(@Nullable JsonObject confirmationInfo, @Nullable PingOneSDKError error) {
+        if (error != null) {
+            // handle error
+        } else {
+            // authentication approved; confirmationInfo may contain device requirements evaluation data
+        }
+    }
+});
+```
+
+To deny a push authentication, pass a `DenyReason`:
+
+```java
+notificationObject.deny(context, DenyReason.NONE, error -> {
+    if (error != null) {
+        // handle error
+    }
+});
 ```
 
 <a name="2-mobile-authentication-framework"></a>

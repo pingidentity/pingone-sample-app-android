@@ -19,7 +19,7 @@ buildscript {
          * using Gradle. It includes tasks and configurations specific to Android development, such
          * as compiling Java and Kotlin code, packaging resources, and generating APKs.
          */
-        classpath 'com.android.tools.build:gradle:8.13.0'
+        classpath 'com.android.tools.build:gradle:8.13.1'
         /*
          * This plugin is used to integrate Google services, such as Firebase, into Android projects.
          * It simplifies the process of configuring and managing Google services, such as setting up
@@ -31,7 +31,7 @@ buildscript {
          * tasks and configurations specific to Kotlin development, such as compiling Kotlin files
          * and generating Java bytecode.
          */
-        classpath 'org.jetbrains.kotlin:kotlin-gradle-plugin:1.8.0'
+        classpath 'org.jetbrains.kotlin:kotlin-gradle-plugin:2.2.21'
         /*
          * Gradle plugin called Safe Args that generates simple object and builder classes for
          * type-safe navigation and access to any associated arguments.

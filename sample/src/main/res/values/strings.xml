@@ -39,6 +39,7 @@
     <string name="alert_dialog_button_ok">button_ok</string>
     <string name="button_approve" translatable="false">button_approve</string>
     <string name="button_deny" translatable="false">button_deny</string>
+    <string name="text_input_enter_a_number">Enter a number:</string>
 
     <string name="text_view_app_version" translatable="false">text_view_app_version</string>
 

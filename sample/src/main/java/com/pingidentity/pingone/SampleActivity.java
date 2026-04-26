@@ -3,7 +3,6 @@ package com.pingidentity.pingone;
 import static com.pingidentity.pingone.notification.SampleNotificationsActionsReceiver.ACTION_APPROVE;
 import static com.pingidentity.pingone.notification.SampleNotificationsManager.NOTIFICATION_ID_SAMPLE_APP;
 
-import android.app.NotificationManager;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
@@ -28,8 +27,7 @@ import androidx.core.app.NotificationManagerCompat;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.pingidentity.pingidsdkv2.NotificationObject;
-import com.pingidentity.pingidsdkv2.PingOne;
-import com.pingidentity.pingidsdkv2.PingOneSDKError;
+import com.pingidentity.pingidsdkv2.types.DenyReason;
 
 public class SampleActivity extends AppCompatActivity {
     AlertDialog alertDialog;
@@ -58,6 +56,10 @@ public class SampleActivity extends AppCompatActivity {
     }
 
     private void handleNotificationObjectIntent(@NonNull Intent intent){
+        if (intent.getExtras() == null) {
+            Log.e("Sample activity", "Intent extras are null");
+            return;
+        }
         NotificationObject pingOneNotificationObject = (NotificationObject) intent.getExtras().get("PingOneNotification");
         if (pingOneNotificationObject!=null) {
             /*
@@ -67,18 +69,19 @@ public class SampleActivity extends AppCompatActivity {
              */
             if (intent.getAction()!=null && intent.getAction().equalsIgnoreCase(ACTION_APPROVE)){
                 NotificationManagerCompat.from(this).cancel(NOTIFICATION_ID_SAMPLE_APP);
-                pingOneNotificationObject.approve(this, "auth_approve", null, new PingOne.PingOneSDKCallback() {
-                    @Override
-                    public void onComplete(@Nullable PingOneSDKError pingOneSDKError) {
-                        if (pingOneSDKError!=null){
-                            Log.e("Sample activity", "Silent approve action returned error " + pingOneSDKError.getMessage());
-                        }else{
-                            Log.i("Sample activity", "Silent approve action completed");
-                        }
-                    }
-                });
+                pingOneNotificationObject.approve(
+                        this,
+                        "auth_approve",
+                        null,
+                        (confirmationInfo, error) -> {
+                            if (error!=null){
+                                Log.e("Sample activity", "Silent approve action returned error " + error.getMessage());
+                            }else{
+                                Log.i("Sample activity", "Silent approve action completed with confirmation info: " + confirmationInfo);
+                            }
+                        });
                 /*
-                 * in "auth_open" push category scenario do not build the approve/deny user dialog
+                 * in "auth_open" push category scenario do not build the approval/deny user dialog
                  * as notification object already approved at this point
                  */
                 return;
@@ -130,41 +133,31 @@ public class SampleActivity extends AppCompatActivity {
         alertDialog = new AlertDialog.Builder(this)
                 .setTitle(title==null?"Authenticate?":title)
                 .setMessage(body==null?"":body)
-                .setPositiveButton(R.string.approve_button_text, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        pingOneNotificationObject.approve(SampleActivity.this, "user", null, new PingOne.PingOneSDKCallback() {
-                            @Override
-                            public void onComplete(@Nullable final PingOneSDKError pingOneSDKError) {
-                                runOnUiThread(() -> {
-                                    if (pingOneSDKError != null) {
-                                        showOkDialog(pingOneSDKError.toString());
-                                    }else{
-                                        finish();
-                                    }
-                                });
-
+                .setPositiveButton(R.string.approve_button_text, (dialog, which) -> pingOneNotificationObject.approve(
+                        SampleActivity.this,
+                        "user",
+                        null,
+                        (confirmationInfo, error) -> runOnUiThread(() -> {
+                            if (error != null) {
+                                showOkDialog(error.toString());
+                            } else {
+                                String confirmationMessage = confirmationInfo != null
+                                        ? confirmationInfo.getAsString()
+                                        : "Authentication approved";
+                                showOkDialog(confirmationMessage);
                             }
-                        });
-                    }
-                })
-                .setNegativeButton(R.string.deny_button_text, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        pingOneNotificationObject.deny(SampleActivity.this, new PingOne.PingOneSDKCallback() {
-                            @Override
-                            public void onComplete(@Nullable final PingOneSDKError pingOneSDKError) {
-                                runOnUiThread(() -> {
-                                    if (pingOneSDKError != null) {
-                                        showOkDialog(pingOneSDKError.toString());
-                                    }else{
-                                        finish();
-                                    }
-                                });
+                        })))
+                .setNegativeButton(R.string.deny_button_text, (dialog, which) -> pingOneNotificationObject.deny(
+                        SampleActivity.this,
+                        DenyReason.NONE,
+                        pingOneSDKError -> runOnUiThread(() -> {
+                            if (pingOneSDKError != null) {
+                                showOkDialog(pingOneSDKError.toString());
+                            }else{
+                                finish();
                             }
-                        });
-                    }
-                })
+                        })
+                ))
                 .setOnCancelListener(
                         dialog -> finish())
                 .create();
@@ -207,13 +200,21 @@ public class SampleActivity extends AppCompatActivity {
             optionButton.setText(String.valueOf(option));
             optionButton.setOnClickListener(view -> {
                 // Handle button click, approve with the selected number
-                pingOneNotificationObject.approve(SampleActivity.this, "user", option, pingOneSDKError -> runOnUiThread(() -> {
-                    if (pingOneSDKError != null) {
-                        showOkDialog(pingOneSDKError.toString());
-                    } else {
-                        finish();
-                    }
-                }));
+                pingOneNotificationObject.approve(
+                        SampleActivity.this,
+                        "user",
+                        option,
+                        (confirmationInfo, error) -> runOnUiThread(() -> {
+                            if (error != null) {
+                                showOkDialog(error.toString());
+                            } else {
+                                String confirmationMessage = confirmationInfo != null
+                                        ? confirmationInfo.getAsString()
+                                        : "Authentication approved";
+                                showOkDialog(confirmationMessage);
+                            }
+                        })
+                );
             });
             // Add the button to the layout
             layout.addView(optionButton);
@@ -245,7 +246,7 @@ public class SampleActivity extends AppCompatActivity {
 
         // Add a TextView for the input field label
         TextView inputLabel = new TextView(this);
-        inputLabel.setText("Enter a number:");
+        inputLabel.setText(R.string.text_input_enter_a_number);
         layout.addView(inputLabel);
 
         // Add an EditText for manual input
@@ -256,18 +257,32 @@ public class SampleActivity extends AppCompatActivity {
         // Set the custom layout to the AlertDialog builder
         builder.setView(layout);
 
-        // Add an approve button for the manually entered number
+        // Add an approval button for the manually entered number
         builder.setPositiveButton("Approve", (dialog, which) -> {
             String enteredNumberStr = inputField.getText().toString();
             if (!enteredNumberStr.isEmpty()) {
-                int enteredNumber = Integer.parseInt(enteredNumberStr);
-                pingOneNotificationObject.approve(SampleActivity.this, "user", enteredNumber, pingOneSDKError -> runOnUiThread(() -> {
-                    if (pingOneSDKError != null) {
-                        showOkDialog(pingOneSDKError.toString());
-                    }  else {
-                        finish();
-                    }
-                }));
+                int enteredNumber;
+                try {
+                    enteredNumber = Integer.parseInt(enteredNumberStr);
+                } catch (NumberFormatException e) {
+                    Toast.makeText(SampleActivity.this, "Please enter a valid number", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                pingOneNotificationObject.approve(
+                        SampleActivity.this,
+                        "user",
+                        enteredNumber,
+                        (confirmationInfo, error) -> runOnUiThread(() -> {
+                            if (error != null) {
+                                showOkDialog(error.toString());
+                            } else {
+                                String confirmationMessage = confirmationInfo != null
+                                        ? confirmationInfo.getAsString()
+                                        : "Authentication approved";
+                                showOkDialog(confirmationMessage);
+                            }
+                        })
+                );
             } else {
                 // Show an error message if the input field is empty
                 Toast.makeText(SampleActivity.this, "Please enter a number", Toast.LENGTH_SHORT).show();
@@ -275,13 +290,15 @@ public class SampleActivity extends AppCompatActivity {
         });
 
         // Add a deny button
-        builder.setNegativeButton("Deny", (dialog, which) -> {
-            pingOneNotificationObject.deny(SampleActivity.this, pingOneSDKError -> runOnUiThread(() -> {
-                if (pingOneSDKError != null) {
-                    showOkDialog(pingOneSDKError.toString());
-                }
-            }));
-        });
+        builder.setNegativeButton("Deny", (dialog, which) -> pingOneNotificationObject.deny(
+                SampleActivity.this,
+                DenyReason.NONE,
+                pingOneSDKError -> runOnUiThread(() -> {
+                    if (pingOneSDKError != null) {
+                        showOkDialog(pingOneSDKError.toString());
+                    }
+                })
+        ));
 
         // Create and show the alert dialog
         alertDialog = builder.create();

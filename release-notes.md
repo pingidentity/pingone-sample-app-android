@@ -1,5 +1,19 @@
 # Release Notes
 
+## v2.3.0 - April 26th, 2026
+Features:
+
+- Updated SDK to version 2.3.0.
+- Updated push authentication handling to use `PingOneMobileConfirmationCallback`.
+- Updated denial handling to use `DenyReason`.
+- Added display of mobile confirmation details returned by the SDK when an authentication is approved.
+
+Bug fixes:
+
+- Fixed number matching manual input handling for invalid numeric values.
+- Improved OIDC flow by showing successful authentication state and allowing the ID token to be copied.
+- Added null checks around notification action data.
+
 ## v2.2.1 - March 8th, 2026
 Features:
 
