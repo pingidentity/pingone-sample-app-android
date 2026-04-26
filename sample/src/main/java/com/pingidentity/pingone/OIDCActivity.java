@@ -65,30 +65,47 @@ public class OIDCActivity extends AppCompatActivity {
         Log.i(TAG, "onResume triggered");
 
         AuthorizationResponse resp = AuthorizationResponse.fromIntent(getIntent());
-        if(resp!=null){
+        if (resp != null) {
             Log.i(TAG, "Authorization response retrieved");
             authorizationService.performTokenRequest(resp.createTokenExchangeRequest(),
                     (response, ex) -> {
-                if(null == response || null==response.idToken){
-                    return;
-                }
-                Log.i(TAG, "OpenIDConnect Authorization token retrieved");
-
-                PingOne.processIdToken(response.idToken, (pairingObject, pingOneSDKError) -> {
-                    if(pingOneSDKError!=null){
-                        Log.i(TAG, pingOneSDKError.toString());
-                        showOkDialog(pingOneSDKError.toString());
-                        return;
-                    }
-                    if (pairingObject!=null){
-                        //should show approve/deny dialogue
-                        showApproveDenyDialog(pairingObject);
-                        return;
-                    }
-                    Log.i(TAG, "token: " + response.idToken);
-                });
-            });
+                        if (null == response || null == response.idToken) {
+                            return;
+                        }
+                        Log.i(TAG, "OpenIDConnect Authorization token retrieved");
+                        createAndShowTokenDialogue(response.idToken);
+                        PingOne.processIdToken(response.idToken, (pairingObject, pingOneSDKError) -> {
+                            if (pingOneSDKError != null) {
+                                Log.i(TAG, pingOneSDKError.toString());
+                                showOkDialog(pingOneSDKError.toString());
+                                return;
+                            }
+                            if (pairingObject != null) {
+                                //should show approve/deny dialogue
+                                showApproveDenyDialog(pairingObject);
+                            } else  {
+                                showOkDialog("Auth completed. No further action needed.");
+                            }
+                            Log.i(TAG, "token: " + response.idToken);
+                        });
+                    });
         }
+    }
+
+    private void createAndShowTokenDialogue(final String token){
+        new AlertDialog.Builder(OIDCActivity.this)
+                .setTitle("OIDC Success")
+                .setMessage("Authentication completed successfully")
+                .setPositiveButton("COPY TOKEN AND CLOSE", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        ClipboardManager clipboard = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
+                        ClipData clip = ClipData.newPlainText("OIDC Token", token);
+                        clipboard.setPrimaryClip(clip);
+                        Toast.makeText(OIDCActivity.this, "OIDC token is copied to clipboard", Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .show();
     }
 
     private void discoverAndAuthorize(){
