@@ -16,7 +16,7 @@ android {
         applicationId "com.pingidentity.pingone"
         minSdkVersion 26
         targetSdkVersion 36
-        versionCode = 8619
+        versionCode = 29
         versionName "2.3.0"
 
         // Make sure this is consistent with the redirect URI used in res/raw/auth_config.json,
