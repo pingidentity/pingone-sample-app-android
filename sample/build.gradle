@@ -1,5 +1,6 @@
 apply plugin: 'com.android.application'
-apply plugin: 'androidx.navigation.safeargs'
+apply plugin: 'kotlin-android'
+apply plugin: 'androidx.navigation.safeargs.kotlin'
 
 
 android {
@@ -14,10 +15,10 @@ android {
     namespace 'com.pingidentity.pingone'
     defaultConfig {
         applicationId "com.pingidentity.pingone"
-        minSdkVersion 26
+        minSdkVersion 28
         targetSdkVersion 36
-        versionCode = 29
-        versionName "2.3.0"
+        versionCode = 8620
+        versionName "2.4.0"
 
         // Make sure this is consistent with the redirect URI used in res/raw/auth_config.json,
         // or specify additional redirect URIs in AndroidManifest.xml
@@ -57,7 +58,13 @@ android {
             //proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
-    
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+    kotlinOptions {
+        jvmTarget = '17'
+    }
     //ensures that the BuildConfig class is generated for your module
     buildFeatures {
         buildConfig true
@@ -66,6 +73,7 @@ android {
 
 }
 dependencies {
+    implementation 'org.jetbrains.kotlin:kotlin-stdlib:2.2.21'
     implementation 'androidx.coordinatorlayout:coordinatorlayout:1.3.0'
     implementation 'com.google.android.material:material:1.13.0'
 
@@ -73,7 +81,8 @@ dependencies {
      * import the PingOne for Customer Android SDK. Get the latest version from
      * https://search.maven.org/search?q=g:com.pingidentity.pingonemfa
      */
-    implementation 'com.pingidentity.pingonemfa:android-sdk:2.3.0'
+    implementation 'com.pingidentity.pingonemfa:android-sdk:2.4.0'
+    //implementation project(':pingidsdkv2')
     /*
      * import the PingOne for Customer Mobile Authentication Framework
      */
@@ -82,10 +91,10 @@ dependencies {
     /*
      * Credential Manager APIs allow a passkey to be stored securely on the device.
      */
-    implementation "androidx.credentials:credentials:1.6.0-beta02"
+    implementation "androidx.credentials:credentials:1.6.0-rc02"
     // optional - needed for credentials support from play services, for devices running
     // Android 13 and below.
-    implementation "androidx.credentials:credentials-play-services-auth:1.6.0-beta02"
+    implementation "androidx.credentials:credentials-play-services-auth:1.6.0-rc02"
 
     /*
      * OkHttp is a third-party library developed by Square for sending and receive HTTP-based
@@ -93,7 +102,7 @@ dependencies {
      */
     implementation 'com.squareup.okhttp3:okhttp:4.11.0'
     //Import the Firebase BoM (Bill of Materials)
-    implementation platform('com.google.firebase:firebase-bom:34.3.0')
+    implementation platform('com.google.firebase:firebase-bom:34.11.0')
     //FireCloud Messaging Services
     implementation 'com.google.firebase:firebase-messaging'
 
@@ -103,13 +112,17 @@ dependencies {
     /*
      * Play Integrity API library
      */
-    implementation 'com.google.android.play:integrity:1.4.0'
+    implementation 'com.google.android.play:integrity:1.6.0'
 
     //to manage lifecycle easily
     implementation "androidx.lifecycle:lifecycle-extensions:2.2.0"
-    implementation 'androidx.appcompat:appcompat:1.7.0'
+    implementation "androidx.lifecycle:lifecycle-runtime-ktx:2.10.0"
+    // Kotlin + coroutines
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.10.2"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.10.2"
+    implementation 'androidx.appcompat:appcompat:1.7.1'
     implementation 'androidx.constraintlayout:constraintlayout:2.2.1'
-    implementation 'androidx.navigation:navigation-fragment:2.9.0'
+    implementation 'androidx.navigation:navigation-fragment-ktx:2.9.7'
 
     /*
      * To easily build cameraX preview

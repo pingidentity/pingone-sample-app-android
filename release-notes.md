@@ -1,5 +1,31 @@
 # Release Notes
 
+## v2.4.0 - July 27th, 2026
+Features:
+
+- Updated SDK to version 2.4.0.
+- Added Kotlin coroutine support — sample app now uses suspend-based SDK calls alongside the existing callback approach.
+
+Compatibility:
+
+- **Minimum Android version raised to API 28 (Android 9).**
+- Sample app converted to Kotlin where needed to support the coroutine-based SDK API.
+- Dependencies updated:
+    * In the `build.gradle` file at the **app** level:
+        * 'com.pingidentity.pingonemfa:android-sdk:**2.4.0**'
+        * 'com.google.firebase:firebase-bom:**34.11.0**'
+        * 'com.google.android.play:integrity:**1.6.0**'
+        * 'androidx.credentials:credentials:**1.6.0-rc02**'
+        * 'androidx.credentials:credentials-play-services-auth:**1.6.0-rc02**'
+        * 'androidx.appcompat:appcompat:**1.7.1**'
+        * 'androidx.navigation:navigation-fragment-ktx:**2.9.7**'
+        * 'org.jetbrains.kotlin:kotlin-stdlib:**2.2.21**'
+    * Dependencies added:
+        * 'org.jetbrains.kotlinx:kotlinx-coroutines-core:**1.10.2**'
+        * 'org.jetbrains.kotlinx:kotlinx-coroutines-android:**1.10.2**'
+        * 'androidx.lifecycle:lifecycle-runtime-ktx:**2.10.0**'
+
+
 ## v2.3.0 - April 26th, 2026
 Features:
 
