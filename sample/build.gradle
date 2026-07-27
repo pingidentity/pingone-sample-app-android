@@ -82,7 +82,7 @@ dependencies {
      * https://search.maven.org/search?q=g:com.pingidentity.pingonemfa
      */
     implementation 'com.pingidentity.pingonemfa:android-sdk:2.4.0'
-    //implementation project(':pingidsdkv2')
+
     /*
      * import the PingOne for Customer Mobile Authentication Framework
      */
