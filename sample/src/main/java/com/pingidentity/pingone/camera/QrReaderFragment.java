@@ -185,7 +185,7 @@ public class QrReaderFragment extends Fragment {
 
     private void onQrCodeDetected(String qrCodeContent){
         requireActivity().runOnUiThread(() -> {
-            NavDirections action = QrReaderFragmentDirections.actionQrReaderFragmentToQrParserFragment(qrCodeContent);
+            NavDirections action = QrReaderFragmentDirections.Companion.actionQrReaderFragmentToQrParserFragment(qrCodeContent);
             controller.navigate(action);
         });
     }
